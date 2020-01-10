@@ -1,0 +1,84 @@
+---
+title: "Arguments of Import Function - `moimport`"
+output: rmarkdown::html_vignette
+theme: cerulean
+vignette: >
+  %\VignetteIndexEntry{Arguments of Import Function}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<style type="text/css">
+h1.title {
+  font-size: 20px;
+  font-family: Verdana;
+}
+h1 { /* Header 1 */
+  font-size: 20px;
+  font-family: Verdana;
+}
+h2 { /* Header 2 */
+    font-size: 16px;
+    font-family: Verdana;
+}
+body{ /* Normal  */
+      font-size: 14px;
+      font-family: Verdana, Geneva, sans-serif;
+  }
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+# `molecular` & `coding`
+---
+Different classes of coding under various types of molecular type. The options in orange are default values:
+
+|`molecular`    |     `coding`    |
+|:--------------|:----------------|
+|`'STR'`        | <span style="color:DArkGoldenRod">**`'integer'`** |
+|		        | `'nearest'`     |
+|		        | `'ceil'`        |
+|		        | `'floor'`       |
+|`'SNP'`        | <span style="color:DArkGoldenRod">**`'4let'`**    | 
+|		        | `'iupac'`       |
+|`'amino'`      | <span style="color:DArkGoldenRod">**`'3let'`**    |  
+|		        | `'1let'`        |
+|		        | `'full'`        |
+|`'codon'`      | <span style="color:DArkGoldenRod">**`'triplet'`** | 
+|		        | `'compact'`     |
+
+
+## Different values of arguments
+The options and their possible values of `moimport` function. The values in orange are default values. Admissible values for option `coding` for different values of option `molecular` are marked with different symbols.
+
+|argument           | values                   | description                                                     |
+|:------------------|:-------------------------|:----------------------------------------------------------------|
+|`multsheets`       | <span style="color:DArkGoldenRod">**`'FALSE'`**            | single worksheet dataset                                         
+|		            | `'TRUE'`                 | multiple worksheet dataset
+|`nummtd`           | <span style="color:DArkGoldenRod">**`0`**                  | no metadata column
+|                   | `n`                      | number of metadata columns 
+|`keepmtd`          | <span style="color:DArkGoldenRod">**`'FALSE'`**            | ignores metadata during exporting
+|		            | `TRUE`                   | keeps and checks metadata
+|`transposed`       | <span style="color:DArkGoldenRod">**`'FALSE'`**            | samples in rows, markers in columns
+|		            | `TRUE`                   | markers in rows, samples in columns
+|`molecular`        | <span style="color:DArkGoldenRod">**`'STR'`**$^*$          | short tandem repeats
+|        		    | `'SNP'`$^+$              | single nucleotide polymorphisms
+|       		    | `'amino'`$^\S$           | amino acids
+|        		    | `'codon'`$^{++}$         | three DNA bases
+|`coding`           | <span style="color:DArkGoldenRod">**`'integer'`**$^*$      | STR data where entries are integer values
+|       		    | `'nearest'`$^*$          | STR data where real values are converted to the nearest integer 
+|      		        | `'ceil'`$^*$             | STR data where ceiling function is applied to real values 
+|        		    | `'floor'`$^*$            | STR data in floor function is applied to real values
+|        		    | <span style="color:DArkGoldenRod">**`'4let'`**$^+$         | SNP data in four-letter code i.e. 'A', 'C', 'G', 'T'
+|        		    | `'iupac'`$^+$            | SNP data in IUPAC notation
+|        		    | <span style="color:DArkGoldenRod">**`'3let`'**$^\S$        | amino acids with 3-letter designations 
+|        		    | `'1let'`$^\S$            | amino acids with 1-letter designations
+|        		    | `'full'`$^\S$            | amino acids with their full names
+|        		    | <span style="color:DArkGoldenRod">**`'triplet'`**$^{++}$   | codons where the four-letter codes are used for encoding
+|        		    | `'compact'`$^{++}$       | codons where IUPAC coding is used for encoding
+
+
