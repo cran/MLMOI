@@ -57,7 +57,7 @@ moimerge <-
     {
         oldops <- options(stringsAsFactors = FALSE)
         on.exit(options(oldops))
-        rJava::.jpackage("MLMOI")
+        #KS# rJava::.jpackage("MLMOI")
         nummtd1 <- nummtd1 + 2
         nummtd2 <- nummtd2 + 2
         metadata_warnings <- list()
@@ -80,14 +80,17 @@ moimerge <-
         if (floor(prod(nummtd2)) != prod(nummtd2)) {
             stop("'nummtd2' needs to take integer values.", call. = FALSE)
         }
-        wb_1 <- XLConnect::loadWorkbook(file1)
-        data_1 <- XLConnect::readWorksheet(wb_1,1)
+        #KS# wb_1 <- XLConnect::loadWorkbook(file1)
+        #KS# data_1 <- XLConnect::readWorksheet(wb_1,1)
+
+        data_1 <- openxlsx::read.xlsx(file1,1)
         colnames(data_1)[1] <- "Sample IDs"
         nc_1 <- ncol(data_1)
         mlabels_1 <- colnames(data_1)[nummtd1:nc_1]
         "Second dataset"
-        wb_2 <- XLConnect::loadWorkbook(file2)
-        data_2 <- XLConnect::readWorksheet(wb_2,1)
+        #wb_2 <- XLConnect::loadWorkbook(file2)
+        #data_2 <- XLConnect::readWorksheet(wb_2,1)
+        data_2 <- openxlsx::read.xlsx(file2,1)
         colnames(data_2)[1] <- "Sample IDs"
         nc_2 <- ncol(data_2)
         mlabels_2 <- colnames(data_2)[nummtd2:nc_2]

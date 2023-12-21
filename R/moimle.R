@@ -84,13 +84,14 @@ moimle <-
     {
         oldops <- options(stringsAsFactors = FALSE, digits = 12)
         on.exit(options(oldops))
-        rJava::.jpackage("MLMOI")
+        #rJava::.jpackage("MLMOI")
         if (is.null(ncol(file)) == TRUE) {
             if (file.exists(file) == FALSE) {
                 stop("File cannot be found. Check the path 'file'.", call. = FALSE)
             }
-            w_b <- XLConnect::loadWorkbook(file)
-            set_d <- XLConnect::readWorksheet(w_b, sheet = 1)
+            #w_b <- openxlsx::loadWorkbook(file)
+            #set_d <- XLConnect::readWorksheet(w_b, sheet = 1)
+            set_d <- as.matrix(openxlsx::read.xlsx(file, sheet = 1))
         }
         else if (is.data.frame(file) == TRUE) {
             set_d <- file

@@ -201,7 +201,7 @@ moimport <-
 
         oldops <- options(stringsAsFactors = FALSE)
         on.exit(options(oldops))
-        rJava::.jpackage("MLMOI")
+        ##rJava::.jpackage("MLMOI")
         prerequisite <- moi_prerequisite()
         cha <- prerequisite[[1]]
         cha_num <- prerequisite[[2]]
@@ -218,7 +218,7 @@ moimport <-
         general_warnings <- list()
         metadata_warnings <- list()
         marker_warnings <- list()
-        allmolecular <- c('STR', 'SNP', 'AMINO', 'CODON')
+        allmolecular <- c('STR', 'SNP', 'AMINO', 'CODON','PLASMODIUM')   ## KS - cor
         allcoding <- list(c('integer', 'nearest', 'floor', 'ceil'), c('4let', 'iupac'),
                           c('3let', '1let', 'full'), c('triplet', 'compact'))
         ###
@@ -329,10 +329,19 @@ moimport <-
                     stop("Codon data needs to be of coding classes 'triplet' and 'compact'.", call. = FALSE)
                 }
             }
+            else if (checkmolecular == 'PLASMODIUM'){
+              coderror <- is.na(match(checkcoding, c('triplet', 'compact')))*1
+              if (length(coding) == 1 && checkcoding[1] == 'integer') {
+                coding <- 'human plasmodium'
+              }
+              else if (sum(coderror) > 0) {
+                stop("Codon data needs to be of coding classes 'triplet' and 'compact'.", call. = FALSE)
+              }
+            }
         }
         else if (checkcoding[1] == 'integer' && length(coding) == 1) {
             cod <- c('integer', '4let', '3let', 'triplet')
-            mol <- c('STR','SNP','AMINO','CODON')
+            mol <- c('STR','SNP','AMINO','CODON','PLASMODIUM') ##KS-cor
             if (multsheets == 0) {
                 molec <- match(checkmolecular, mol)
                 coding <- cod[molec]
@@ -353,9 +362,11 @@ moimport <-
             if (keepmtd == 1 && nummtd == 2) {
                 stop("The argument 'keepmtd' is set as 'TRUE'. For retaining metadata, the argument 'nummtd' needs to be set as the number of metadata columns.", call. = FALSE)
             }
-            w_b <- XLConnect::loadWorkbook(file)
+            #KS# w_b <- XLConnect::loadWorkbook(file)
+            w_b <- openxlsx::read.xlsx(file,1)
             if (transposed == TRUE) {
-                set_d <- t(as.matrix(XLConnect::readWorksheet(w_b, sheet = 1, header = FALSE)))
+                #KS# set_d <- t(as.matrix(XLConnect::readWorksheet(w_b, sheet = 1, header = FALSE)))
+                set_d <- t(as.matrix(openxlsx::read.xlsx(file, sheet = 1,colNames=FALSE)))
                 colnames(set_d) <- set_d[1,]
                 alllabels <- set_d[1,][-1]
                 set_d <- set_d[-1,]
@@ -363,11 +374,13 @@ moimport <-
                 rw_col <- c("columns ", "column ", "row ", "rows ")
             }
             else if (transposed == FALSE) {
-                set_d <- as.matrix(XLConnect::readWorksheet(w_b, sheet = 1))
-                alllabels <- XLConnect::readWorksheet(w_b, sheet = 1, startCol = 2, endCol = ncol(set_d),
-                                                      startRow = 1, endRow = 1, header = FALSE,
-                                                      autofitCol = FALSE, autofitRow = FALSE)
-                alllabels <- as.vector(unlist(alllabels))
+                #KS# set_d <- as.matrix(XLConnect::readWorksheet(w_b, sheet = 1))
+                set_d <- as.matrix(openxlsx::read.xlsx(file, sheet = 1))
+                alllabels <- as.vector(colnames(set_d)[-1])
+                #KS# alllabels <- XLConnect::readWorksheet(w_b, sheet = 1, startCol = 2, endCol = ncol(set_d),
+                #KS#                                       startRow = 1, endRow = 1, header = FALSE,
+                #KS#                                       autofitCol = FALSE, autofitRow = FALSE)
+                #KS# alllabels <- as.vector(unlist(alllabels))
                 rw_col <- c("rows ", "row ", "column ", "columns ")
             }
             set_d[,1] <- trimws(set_d[,1])
@@ -470,6 +483,7 @@ moimport <-
                     result <- result[[1]]
                     exporting[[j]] <- result[[1]]
                     ll[j, ] <- unlist(lapply(result[[1]], length))
+
                 }
             }else{
                 markerlabels <- NA
@@ -480,8 +494,9 @@ moimport <-
         }
         else if (multsheets == 1) {
             "Multiple worksheet dataset"
-            w_b <- XLConnect::loadWorkbook(file)
-            sh_names <- XLConnect::getSheets(w_b)
+            #KS#  w_b <- XLConnect::loadWorkbook(file)
+            #KS# sh_names <- XLConnect::getSheets(w_b)
+            sh_names <- openxlsx::getSheetNames(file)
             nsheet <- length(sh_names)
             if (length(nummtd) == 1) {
                 nummtd <- rep(nummtd, nsheet)
@@ -521,7 +536,9 @@ moimport <-
             numarkwsh <- 1:nsheet
             for (n in 1:nsheet) {
                 if (transposed[n] == TRUE) {
-                    set_d <- as.matrix(XLConnect::readWorksheet(w_b, sheet = n, header = FALSE))
+                    #KS#  set_d <- as.matrix(XLConnect::readWorksheet(w_b, sheet = n, header = FALSE))
+                    #KS#  set_d <- t(set_d)
+                    set_d <- as.matrix(openxlsx::read.xlsx(file, sheet = n, colNames = FALSE))
                     set_d <- t(set_d)
                     colnames(set_d) <- set_d[1,]
                     alllabels <- set_d[1,][-1]
@@ -530,11 +547,13 @@ moimport <-
                     rw_col <- c("columns ", "column ", "row ", "rows ")
                 }
                 else if (transposed[n] == FALSE) {
-                    set_d <- as.matrix(XLConnect::readWorksheet(w_b, sheet = n))
-                    alllabels <- XLConnect::readWorksheet(w_b, sheet = n, startCol = 2, endCol = ncol(set_d),
-                                                          startRow = 1, endRow = 1, header = FALSE,
-                                                          autofitRow = FALSE, autofitCol = FALSE)
-                    alllabels <- unlist(alllabels)
+                    #KS#  set_d <- as.matrix(XLConnect::readWorksheet(w_b, sheet = n))
+                    #KS#  alllabels <- XLConnect::readWorksheet(w_b, sheet = n, startCol = 2, endCol = ncol(set_d),
+                    #KS#                                        startRow = 1, endRow = 1, header = FALSE,
+                    #KS#                                        autofitRow = FALSE, autofitCol = FALSE)
+                    #KS#  alllabels <- unlist(alllabels)
+                    set_d <- as.matrix(openxlsx::read.xlsx(file, sheet = n))
+                    alllabels <- as.vector(colnames(set_d)[-1])
                     rw_col <- c("rows ", "row ", "column ", "columns ")
                 }
                 if ((nummtd[n] - 1) > ncol(set_d)) {

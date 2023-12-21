@@ -91,7 +91,6 @@ moi_marker <-
                         warnid <- x[[2]] + warnid
                         x <- decoder_snp(x[[1]], c_l, r_w, ambeguity_code, represented_bases, coding, rw_col, multsh)
                         warnid <- x[[2]] + warnid
-
                     }
                     else if (molecular == 'AMINO') {
                         x <- corrector_string(sam_i[k], c_l, r_w, conm, cons, cha_string, rw_col, coding, multsh)
@@ -105,6 +104,12 @@ moi_marker <-
                         x <- decoder_codon(x[[1]], c_l, r_w, aa_1, aa_2, compact, codon_s, coding, rw_col, multsh)
                         warnid <- x[[2]] + warnid
                     }
+                   # else if (molecular == 'PLASMODIUM') {  ## KS - cor
+                    #    x <- corrector_string(sam_i[k], c_l, r_w, conm, cons, cha_string, rw_col, coding, multsh)
+                     #   warnid <- x[[2]] + warnid
+                      #  x <- decoder_plasmodium(x[[1]], c_l, r_w, aa_1, aa_2, compact, codon_s, coding, rw_col, multsh)
+                       # warnid <- x[[2]] + warnid
+                    #}
                     host <- append(host, x[[1]])
                 }
                 else {

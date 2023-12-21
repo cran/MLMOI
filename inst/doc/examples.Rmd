@@ -24,7 +24,7 @@ The function is called with `moimport(<file>,...)`, where the mandatory argument
 
 ```{r, out.width='70%', include=TRUE, fig.align='center', echo = F}
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "basic.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 ```
@@ -52,7 +52,7 @@ The number of metadata columns are specified via argument `nummtd`. If Users wan
 
 ```{r, out.width='80%', include=TRUE, fig.align='center', echo = FALSE}
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "metadata.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 ```
@@ -76,7 +76,7 @@ The Excel file 'testDatamt.xlsx' provided by the package contains different type
 
 ```{r, out.width='80%',include=TRUE, fig.align='center', echo = FALSE}
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "multi-type.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 ```
@@ -100,7 +100,7 @@ If a dataset contains a molecular marker whose coding is not assumed as default 
 
 ```{r, out.width='80%',include=TRUE, fig.align='center', echo = FALSE}
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "multi-type-coding.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 ```
@@ -125,7 +125,7 @@ The file 'testDatacomplex.xlsx' provided by the package contains datasets in mul
 
 ```{r,include=TRUE, out.width = '80%', fig.align='center', fig.show = 'hold', echo = FALSE}
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "complex.png", package = "MLMOI")
 
 knitr::include_graphics(fig)
@@ -163,7 +163,7 @@ Consider the datasets 'testDatamerge1.xlsx' and 'testDatamerge2.xlsx' from the p
 
 ```{r,include=TRUE, out.width = '80%', fig.align='center', fig.show = 'hold', echo = FALSE}
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "merge.png", package = "MLMOI")
 knitr::include_graphics(fig)
 ```

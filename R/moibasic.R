@@ -575,7 +575,15 @@ moi_export <-
             u <- u + 1
             export <- paste(w_dir, fname, u, ".xlsx", sep = "")
         }
-        XLConnect::writeWorksheetToFile(export, final, sheet = paste("Out", sep = ""))
+        #KS# XLConnect::writeWorksheetToFile(export, final, sheet = paste("Out", sep = ""))
+
+        output <- openxlsx::createWorkbook()
+        openxlsx::addWorksheet(output, "Out")
+        openxlsx::writeData(output, sheet ="Out",final)
+        openxlsx::saveWorkbook(output,export, overwrite = TRUE)
+
+
+        #openxlsx::write.xlsx(final, export, sheetName = paste("Out", sep = ""))
         export
     }
 
@@ -615,34 +623,57 @@ moi_warning <-
             u <- u + 1
             keepwarnings <- paste(w_dir, fname, u, ".xlsx", sep = "")
         }
-        wwarnings <- XLConnect::loadWorkbook(keepwarnings, create = TRUE)
+        #KS# wwarnings <- XLConnect::loadWorkbook(keepwarnings, create = TRUE)
+        #wwarnings <- openxlsx::loadWorkbook(keepwarnings, create = TRUE)
+
+        if(file.exists(keepwarnings)){
+            wwarnings <- openxlsx::loadWorkbook(keepwarnings)
+        }else{
+            wwarnings <- openxlsx::createWorkbook()
+            openxlsx::addWorksheet(wwarnings, "general")
+            openxlsx::saveWorkbook(wwarnings,keepwarnings, overwrite = TRUE)
+        }
         if (length(general_warnings)  > 0) {
             gwarning <- data.frame(unlist(general_warnings))
             colnames(gwarning) <- ""
-            XLConnect::createSheet(wwarnings, "general")
-            XLConnect::setColumnWidth(wwarnings, sheet = "general", 1, width = 4000)
-            XLConnect::writeWorksheet(wwarnings, gwarning, sheet = paste("general", sep = ""))
+            #KS# XLConnect::createSheet(wwarnings, "general")
+            #KS# XLConnect::setColumnWidth(wwarnings, sheet = "general", 1, width = 4000)
+            #KS# XLConnect::writeWorksheet(wwarnings, gwarning, sheet = paste("general", sep = ""))
+            openxlsx::addWorksheet(wwarnings, "general")
+            openxlsx::setColWidths(wwarnings,"general", 1,widths = 160)
+            openxlsx::writeData(wwarnings, sheet ="general",gwarning)
         }
         if (length(metadata_warnings) > 0) {
             mtdwarning <- data.frame(unlist(metadata_warnings))
             colnames(mtdwarning) <- ""
-            XLConnect::createSheet(wwarnings, "metadata")
-            XLConnect::setColumnWidth(wwarnings, "metadata", 1, width = 4000)
-            XLConnect::writeWorksheet(wwarnings, mtdwarning, sheet = paste("metadata", sep = ""))
+            #XLConnect::createSheet(wwarnings, "metadata")
+            #XLConnect::setColumnWidth(wwarnings, "metadata", 1, width = 4000)
+            #XLConnect::writeWorksheet(wwarnings, mtdwarning, sheet = paste("metadata", sep = ""))
+
+            openxlsx::addWorksheet(wwarnings, "metadata")
+            openxlsx::setColWidths(wwarnings,"metadata", 1,widths = 160)
+            openxlsx::writeData(wwarnings, sheet ="metadata",mtdwarning)
         }
         if (length(marker_warnings) != 0) {
             for (i in 1:length(marker_warnings)) {
                 if (length(marker_warnings[i]) > 0 && is.null(marker_warnings[[i]]) == FALSE) {
                     mkwarning <- data.frame(unlist(marker_warnings[[i]]))
                     colnames(mkwarning) <- ""
-                    XLConnect::createSheet(wwarnings, markerlabels[i])
-                    XLConnect::setColumnWidth(wwarnings, markerlabels[i], 1, width = 4000)
-                    XLConnect::writeWorksheet(wwarnings, mkwarning, sheet = paste(markerlabels[i], sep = ""))
+                    #KS# XLConnect::createSheet(wwarnings, markerlabels[i])
+                    #KS# XLConnect::setColumnWidth(wwarnings, markerlabels[i], 1, width = 4000)
+                    #KS# XLConnect::writeWorksheet(wwarnings, mkwarning, sheet = paste(markerlabels[i], sep = ""))
+
+
+                    openxlsx::addWorksheet(wwarnings, markerlabels[i])
+                    openxlsx::setColWidths(wwarnings,markerlabels[i], 1,widths = 160)
+                    openxlsx::writeData(wwarnings, sheet = markerlabels[i], mkwarning)
+
                 }
 
             }
         }
-        XLConnect::saveWorkbook(wwarnings, keepwarnings)
+        #KS# XLConnect::saveWorkbook(wwarnings, keepwarnings)
+        openxlsx::saveWorkbook(wwarnings,keepwarnings, overwrite = TRUE)
         keepwarnings
     }
 

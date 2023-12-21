@@ -4,9 +4,9 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- out.width='70%', include=TRUE, fig.align='center', echo = F-------------
+## ----out.width='70%', include=TRUE, fig.align='center', echo = F--------------
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "basic.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 
@@ -17,12 +17,12 @@ Outfile <- moimport(file = infile)
 ## -----------------------------------------------------------------------------
 head(Outfile)
 
-## ---- eval = FALSE------------------------------------------------------------
+## ----eval = FALSE-------------------------------------------------------------
 #  Outfile <- moimport(infile, export = "testDatabasicOut.xlsx")
 
-## ---- out.width='80%', include=TRUE, fig.align='center', echo = FALSE---------
+## ----out.width='80%', include=TRUE, fig.align='center', echo = FALSE----------
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "metadata.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 
@@ -33,9 +33,9 @@ Outfile <- moimport(infile, nummtd = 3, keepmtd = TRUE)
 ## -----------------------------------------------------------------------------
 head(Outfile)
 
-## ---- out.width='80%',include=TRUE, fig.align='center', echo = FALSE----------
+## ----out.width='80%',include=TRUE, fig.align='center', echo = FALSE-----------
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "multi-type.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 
@@ -46,9 +46,9 @@ Outfile <- moimport(infile, nummtd = 1, molecular = c('str','amino','snp','snp',
 ## -----------------------------------------------------------------------------
 head(Outfile)
 
-## ---- out.width='80%',include=TRUE, fig.align='center', echo = FALSE----------
+## ----out.width='80%',include=TRUE, fig.align='center', echo = FALSE-----------
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "multi-type-coding.png", package = "MLMOI")
 knitr::include_graphics(fig, auto_pdf = TRUE)
 
@@ -63,7 +63,7 @@ tail(Outfile)
 
 ## ----include=TRUE, out.width = '80%', fig.align='center', fig.show = 'hold', echo = FALSE----
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "complex.png", package = "MLMOI")
 
 knitr::include_graphics(fig)
@@ -86,7 +86,7 @@ head(Outfile, n = 7)
 
 ## ----include=TRUE, out.width = '80%', fig.align='center', fig.show = 'hold', echo = FALSE----
 library(MLMOI)
-rJava::.jpackage("MLMOI")
+#rJava::.jpackage("MLMOI")
 fig <- system.file("extdata/fig", "merge.png", package = "MLMOI")
 knitr::include_graphics(fig)
 
